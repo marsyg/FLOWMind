@@ -1,14 +1,135 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
 generator client {
-  provider = "prisma-client-js"
+ provider = "prisma-client-js"
 }
 
+
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+ provider = "postgresql"
+ url      = env("DATABASE_URL")
 }
+
+
+model User {
+ id              String         @id @default(uuid())
+ name            String
+ email           String         @unique
+ passwordHash    String?
+ ageRange        String
+ occupation      String
+ interests       Json
+ mbtiType        String
+ mbtiPercentages Json?
+ createdAt       DateTime       @default(now())
+ goals           Goal[]
+ routines        Routine[]
+ fixedTasks      FixedTask[]
+ notifications   Notification[]
+ feedbacks       Feedback[]
+ analysisData    AnalysisData[]
+
+
+ gender String
+}
+
+
+model Goal {
+ id          String   @id @default(uuid())
+ user        User     @relation(fields: [userId], references: [id])
+ userId      String
+ title       String
+ description String?
+ goalType    String // "short-term", "ongoing", "long-term"
+ createdAt   DateTime @default(now())
+}
+
+
+model FixedTask {
+ id          String   @id @default(uuid())
+ user        User     @relation(fields: [userId], references: [id])
+ userId      String
+ title       String
+ description String
+ duration    Int
+ createdAt   DateTime @default(now())
+ repeat      Boolean
+
+
+ routine      Routine?       @relation(fields: [routineId], references: [id])
+ routineId    String?
+ feedback     Feedback?     
+ feedbackId   String?        @unique
+ notification Notification?
+}
+
+
+model Notification {
+ id          String     @id @default(uuid())
+ user        User       @relation(fields: [userId], references: [id])
+ userId      String
+ timeWindow  String?
+ priority    String?
+ createdAt   DateTime   @default(now())
+ FixedTask   FixedTask? @relation(fields: [fixedTaskId], references: [id])
+ fixedTaskId String?     @unique
+ Routine     Routine?  @relation(fields: [routineId], references: [id])
+ routineId   String?   @unique
+}
+
+
+model Routine {
+ id             String        @id @default(uuid())
+ user           User          @relation(fields: [userId], references: [id])
+ userId         String
+ date           DateTime
+ tasks          Json // Store list of tasks with time slots
+ status         String        @default("pending")
+ message        String?
+ fixedTasks     FixedTask[]
+ notification   Notification? 
+ 
+ feedback       Feedback?     @relation(fields: [feedbackId], references: [id])
+ feedbackId     String?
+ createdAt      DateTime      @default(now())
+
+}
+
+
+model Feedback {
+ id     String @id @default(uuid())
+ user   User   @relation(fields: [userId], references: [id])
+ userId String
+
+
+ routineId String
+
+ fixedTask FixedTask? @relation(fields: [fixedTaskId], references: [id])
+ fixedTaskId    String?   @unique
+ rating         Int
+ comment        String?
+ energyLevel    Int?
+ taskCompletion Boolean?
+ efficiency     Int?
+ createdAt      DateTime   @default(now())
+ 
+ Routine        Routine[]
+}
+
+
+model AnalysisData {
+ id              String   @id @default(uuid())
+ user            User     @relation(fields: [userId], references: [id])
+ userId          String
+ date            DateTime
+ taskCompletion  Float?
+ timeManagement  Float?
+ goalProgress    Float?
+ trends          Json?
+ recommendations Json?
+ createdAt       DateTime @default(now())
+}
+
+
