@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -31,8 +33,21 @@ export async function createUser(data: {
 	// ];
 }) {
 	try {
+		if (
+			!data ||
+			Object.values(data).some((value) => value === null || value === undefined)
+		) {
+			throw new Error("Invalid data: Some fields are missing.");
+		}
+
+		console.log("Validated Data:", data);
+
 		const user = await prisma.user.create({ data });
-		return NextResponse.json(user, { status: 201 });
+		console.log(user);
+		if (!user) {
+			return NextResponse.json({ error: "User not found" }, { status: 404 });
+		}
+		return NextResponse.json({ user: JSON.stringify(user) }, { status: 201 });
 	} catch (error: any) {
 		console.error(error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
@@ -46,10 +61,11 @@ export async function getUserById(userId: string) {
 			where: { id: userId },
 			include: { routines: true, fixedTasks: true },
 		});
-		if (!user) {
+		console.log(user);
+		if (!user || user === null || user === undefined) {
 			return NextResponse.json({ error: "User not found" }, { status: 404 });
 		}
-		return NextResponse.json(user);
+		return NextResponse.json({ user: JSON.parse(JSON.stringify(user)) }, { status: 200 });
 	} catch (error: any) {
 		console.error(error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
