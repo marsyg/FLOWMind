@@ -26,3 +26,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .qodo
+
+
+# nextjs-server-action-tester
+/public/server-actions.json
+/app/api/list-actions
+/app/list-actions
