@@ -115,6 +115,7 @@ export default function OnboardingPage() {
 
 		console.log(response);
 
+
 		console.log("Onboarding complete with data:", formData);
 		setIsOnboarded(true);
 		toast.success("Onboarding complete!", {

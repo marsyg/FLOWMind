@@ -52,25 +52,23 @@ export default function ProfilePage({
 
 	useEffect(() => {
 		const fetchUser = async () => {
-
 			toast.info("Loading profile", {
 				description: "Please wait while we fetch your profile.",
 			});
 
 			const { userId } = await params;
-			if(!userId){
+			if (!userId) {
 				toast.error("User not found");
 				return;
 			}
 			try {
-				
 				const response: any = await getUserById(userId);
 				console.log(response);
 				if (!response) {
 					toast.error("User not found");
 					return;
 				}
-				setUser(response);
+				setUser(response.body.user);
 				setIsLoaded(true);
 				toast.success("Profile loaded");
 			} catch {
@@ -189,7 +187,7 @@ export default function ProfilePage({
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<ProfileForm />
+									{user.name && <ProfileForm user={user} />}
 								</CardContent>
 							</Card>
 						</TabsContent>
@@ -203,7 +201,16 @@ export default function ProfilePage({
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<MbtiProfile />
+									{user.name && (
+										<MbtiProfile
+											mbtiType={user.mbtiType}
+											mbtiPercentages={user.mbtiPercentages}
+											chronotype={user.chronotype.chronotype}
+											productiveHours={user.chronotype.productiveHours}
+											sleepTime={user.chronotype.sleepTime}
+											wakeTime={user.chronotype.wakeTime}
+										/>
+									)}
 								</CardContent>
 							</Card>
 						</TabsContent>
