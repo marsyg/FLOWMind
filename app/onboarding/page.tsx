@@ -65,7 +65,7 @@ export default function OnboardingPage() {
 		nextStep();
 	};
 
-	const handleComplete = () => {
+	const handleComplete = async() => {
 		// In a real app, you would save all the data to your backend here
 
 		if (
@@ -98,7 +98,7 @@ export default function OnboardingPage() {
 
 		// Save data to backend
 
-		const response = createUser(data);
+		const response = await createUser(data);
 
 		console.log(response);
 
