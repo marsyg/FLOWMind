@@ -84,6 +84,9 @@ export default function OnboardingPage() {
 			!formData.mbti.thinkingFeeling ||
 			!formData.mbti.judgingPerceiving ||
 			!formData.chronotype.chronotype
+			!formData.profile ||
+			!formData.mbti ||
+			!formData.chronotype 
 		) {
 			toast.error("Please fill out all required fields.");
 			return;
@@ -107,9 +110,7 @@ export default function OnboardingPage() {
 		};
 
 		// Save data to backend
-
 		console.log(data);
-
 		const response = await createUser(data);
 
 		console.log(response);
