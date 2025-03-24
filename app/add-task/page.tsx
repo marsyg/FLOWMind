@@ -16,7 +16,9 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
+import { createFixedTask } from '@/actions/task.action'
 import { useRouter } from "next/navigation"
+
 
 const taskSchema = z.object({
   title: z.string().min(2, {
@@ -31,6 +33,7 @@ const taskSchema = z.object({
   isFixed: z.boolean().default(false),
   date: z.string(),
 })
+
 
 export default function AddTaskPage() {
   const router = useRouter()
@@ -57,8 +60,19 @@ export default function AddTaskPage() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof taskSchema>) {
-    console.log(values)
+  const   onSubmit =async (values: z.infer<typeof taskSchema>)=> {
+    const taskData = {
+    title: values.title,
+    description: values.description || "", // Ensure description is not undefined
+    duration: values.duration,
+    timeWindow: values.timeWindow,
+    priority: values.priority,
+    isFixed: values.isFixed,
+    date: values.date,
+  };
+  
+    
+    const response = await createFixedTask(taskData); 
     toast.success("Task added", {
       description: "Your new task has been added successfully.",
     })
