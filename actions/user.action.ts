@@ -44,7 +44,7 @@ export async function getUserById(userId: string) {
 	try {
 		const user = await prisma.user.findUnique({
 			where: { id: userId },
-			include: { routines: true, tasks: true },
+			include: { routines: true, fixedTasks: true },
 		});
 		if (!user) {
 			return NextResponse.json({ error: "User not found" }, { status: 404 });
