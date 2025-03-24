@@ -44,8 +44,12 @@ export default function OnboardingPage() {
 			thinkingFeeling: 50,
 			judgingPerceiving: 50,
 		},
-		chronotype: null,
-		goals: null,
+		chronotype: {
+			chronotype: "",
+			productiveHours: [""],
+			sleepTime: "",
+			wakeTime: "",
+		},
 	});
 
 	const nextStep = () => {
@@ -69,12 +73,22 @@ export default function OnboardingPage() {
 		// In a real app, you would save all the data to your backend here
 
 		if (
+			!formData.profile.name ||
+			!formData.profile.email ||
+			!formData.profile.age ||
+			!formData.profile.gender ||
+			!formData.profile.occupation ||
+			!formData.mbti.mbtiType ||
+			!formData.mbti.introvertExtrovert ||
+			!formData.mbti.sensingIntuition ||
+			!formData.mbti.thinkingFeeling ||
+			!formData.mbti.judgingPerceiving ||
+			!formData.chronotype.chronotype
 			!formData.profile ||
 			!formData.mbti ||
 			!formData.chronotype 
-			
 		) {
-			toast.error("Please fill out all the fields.");
+			toast.error("Please fill out all required fields.");
 			return;
 		}
 
@@ -84,7 +98,7 @@ export default function OnboardingPage() {
 			ageRange: formData.profile.age,
 			gender: formData.profile.gender,
 			occupation: formData.profile.occupation,
-			interests: formData.profile.interests,
+			interests: formData.profile.interests || ["baka"],
 			mbtiType: formData.mbti.mbtiType,
 			mbtiPercentages: {
 				introvertExtrovert: formData.mbti.introvertExtrovert,
@@ -93,11 +107,10 @@ export default function OnboardingPage() {
 				judgingPerceiving: formData.mbti.judgingPerceiving,
 			},
 			chronotype: formData.chronotype,
-			// goals: formData.goals,
 		};
 
 		// Save data to backend
-        
+		console.log(data);
 		const response = await createUser(data);
 
 		console.log(response);
