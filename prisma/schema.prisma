@@ -29,6 +29,7 @@ model User {
     feedbacks       Feedback[]
     analysisData    AnalysisData[]
 
+
     gender String
 }
 
