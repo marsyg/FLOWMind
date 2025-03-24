@@ -71,8 +71,8 @@ export default function OnboardingPage() {
 		if (
 			!formData.profile ||
 			!formData.mbti ||
-			!formData.chronotype ||
-			!formData.goals
+			!formData.chronotype 
+			
 		) {
 			toast.error("Please fill out all the fields.");
 			return;
@@ -97,7 +97,7 @@ export default function OnboardingPage() {
 		};
 
 		// Save data to backend
-
+        
 		const response = await createUser(data);
 
 		console.log(response);
