@@ -48,8 +48,8 @@ export async function createFixedTask(taskData: {
   duration: string;
   timeWindow: string;
   priority: string;
-  isFixed: boolean;
-  date: string;
+  // isFixed: boolean;
+  // date: string;
 }) {
   const validation = validateTaskData(taskData);
   if (!validation.isValid) {
@@ -76,8 +76,8 @@ export async function createFixedTask(taskData: {
       duration: 6, // Duration in minutes (as a string, as expected by the function)
       timeWindow: 'Evening',
       priority: 'High',
-      isFixed: true,
-      date: '2025-03-28', // Example date in YYYY-MM-DD format
+      // isFixed: true,
+      // date: '2025-03-28', // Example date in YYYY-MM-DD format
     };
     console.log(data);
     // const uploadTaskData = {
@@ -94,15 +94,15 @@ export async function createFixedTask(taskData: {
     // };
 
     const task = await prisma.fixedTask.create({
-      data: {
-        ...data,
-        repeat: true,
-        createdAt: new Date(data.date),
-        userId: 'auth-user-id', // Replace this with an actual authenticated user ID
-        routineId: 'obe',
-        feedbackId: 'two',
-      },
-    });
+			data: {
+				...data,
+				repeat: true,
+				// createdAt: new Date(data.date),
+				userId: "3a162515-ef34-4525-85bc-2525a47e7e00", // Replace this with an actual authenticated user ID
+				// routineId: 'obe',
+				// feedbackId: 'two',
+			},
+		});
 
     return { success: true, task };
   } catch (error) {
