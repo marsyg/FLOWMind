@@ -48,8 +48,13 @@ export async function createFixedTask(taskData: {
   duration: string;
   timeWindow: string;
   priority: string;
+<<<<<<< HEAD
 
   date: string;
+=======
+  // isFixed: boolean;
+  // date: string;
+>>>>>>> d07d51af72fa00656bd4eb606f1d0eff8fb78da7
 }) {
   const validation = validateTaskData(taskData);
   if (!validation.isValid) {
@@ -70,6 +75,7 @@ export async function createFixedTask(taskData: {
     };
     // console.log(data);
 
+<<<<<<< HEAD
     // const data = {
     //   title: 'Grocery Shopping',
     //   description: 'Buy groceries for the week at the local supermarket.',
@@ -79,6 +85,17 @@ export async function createFixedTask(taskData: {
     //
     //   date: '2025-03-28', // Example date in YYYY-MM-DD format
     // };
+=======
+    const data = {
+      title: 'Grocery Shopping',
+      description: 'Buy groceries for the week at the local supermarket.',
+      duration: 6, // Duration in minutes (as a string, as expected by the function)
+      timeWindow: 'Evening',
+      priority: 'High',
+      // isFixed: true,
+      // date: '2025-03-28', // Example date in YYYY-MM-DD format
+    };
+>>>>>>> d07d51af72fa00656bd4eb606f1d0eff8fb78da7
     console.log(data);
     // const uploadTaskData = {
     //   title: data.title,
@@ -94,15 +111,15 @@ export async function createFixedTask(taskData: {
     // };
 
     const task = await prisma.fixedTask.create({
-      data: {
-        ...data,
-        repeat: true,
-        createdAt: new Date(data.date),
-        userId: 'auth-user-id', // Replace this with an actual authenticated user ID
-        routineId: 'obe',
-        feedbackId: 'two',
-      },
-    });
+			data: {
+				...data,
+				repeat: true,
+				// createdAt: new Date(data.date),
+				userId: "3a162515-ef34-4525-85bc-2525a47e7e00", // Replace this with an actual authenticated user ID
+				// routineId: 'obe',
+				// feedbackId: 'two',
+			},
+		});
 
     return { success: true, task };
   } catch (error) {

@@ -72,6 +72,7 @@ export default function OnboardingPage() {
   const handleComplete = async () => {
     // In a real app, you would save all the data to your backend here
 
+<<<<<<< HEAD
     if (
       !formData.profile.name ||
       !formData.profile.email ||
@@ -91,6 +92,27 @@ export default function OnboardingPage() {
       toast.error('Please fill out all required fields.');
       return;
     }
+=======
+		if (
+			!formData.profile.name ||
+			!formData.profile.email ||
+			!formData.profile.age ||
+			!formData.profile.gender ||
+			!formData.profile.occupation ||
+			!formData.mbti.mbtiType ||
+			!formData.mbti.introvertExtrovert ||
+			!formData.mbti.sensingIntuition ||
+			!formData.mbti.thinkingFeeling ||
+			!formData.mbti.judgingPerceiving ||
+			!formData.chronotype.chronotype ||
+			!formData.profile ||
+			!formData.mbti ||
+			!formData.chronotype 
+		) {
+			toast.error("Please fill out all required fields.");
+			return;
+		}
+>>>>>>> d07d51af72fa00656bd4eb606f1d0eff8fb78da7
 
     const data = {
       name: formData.profile.name,
