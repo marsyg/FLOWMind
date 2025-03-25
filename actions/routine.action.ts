@@ -1,42 +1,63 @@
-'use server'
+"use server";
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
 
 // Create a new routine
-export async function createRoutine(userId :string, tasks : { name: string; duration: number }[]) {
-  try {
-    const routine = await prisma.routine.create({
-      data: {
-        userId,
-        date: new Date(),
-        tasks: tasks,
-        status: 'pending',
-      },
-    });
-    return NextResponse.json(routine, { status: 201 });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+export async function createRoutine(
+	userId: string
+	// tasks: { name: string; duration: number }[]
+) {
+	try {
+		// fetching tasks with userId
+		const fixedTasks = await prisma.fixedTask.findMany({
+			where: { userId },
+		});
+
+		// creating routine with fetched tasks
+
+		// const routine = await prisma.routine.create({
+		//   data: {
+		//     userId,
+		//     date: new Date(),
+		//     tasks: tasks,
+		//     status: 'pending',
+		//   },
+		// });
+
+		return {
+			status: 200,
+			body: { fixedTasks },
+		};
+	} catch (error: any) {
+		console.error(error);
+		return {
+			status: 500,
+			body: { error: error.message },
+		};
+	}
 }
 
-
-// Get routines for a user
-export async function getRoutinesByUserId(userId: string) {
+// Get routine for a user
+export async function getRoutinesByUserId(routineId: string) {
 	try {
-		const routines = await prisma.routine.findMany({
-      where: { userId },
-      include: { fixedTasks: true, feedback: true },
-    });
-		return NextResponse.json(routines);
-	} catch (error : any) {
-        console.error(error);
-		return NextResponse.json({ error: error.message }, { status: 500 });
+		const routine = await prisma.routine.findUnique({
+			where: { id: routineId },
+			include: { fixedTasks: true, feedback: true },
+		});
+		return {
+			status: 200,
+			body: { routine },
+		};
+	} catch (error: any) {
+		console.error(error);
+		return {
+			status: 500,
+			body: { error: error.message },
+		};
 	}
 }
 
 // Update a routine (add/remove tasks)
-export async function updateRoutine(
+export async function updateTasksInRoutine(
 	routineId: string,
 	tasks: { name: string; duration: number }[]
 ) {
@@ -50,9 +71,15 @@ export async function updateRoutine(
 				},
 			},
 		});
-		return NextResponse.json(updatedRoutine);
-	} catch (error : any) {
-        console.error(error);
-		return NextResponse.json({ error: error.message }, { status: 500 });
+		return {
+			status: 200,
+			body: { routine: updatedRoutine },
+		};
+	} catch (error: any) {
+		console.error(error);
+		return {
+			status: 500,
+			body: { error: error.message },
+		};
 	}
 }

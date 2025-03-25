@@ -83,7 +83,7 @@ export default function OnboardingPage() {
 			!formData.mbti.sensingIntuition ||
 			!formData.mbti.thinkingFeeling ||
 			!formData.mbti.judgingPerceiving ||
-			!formData.chronotype.chronotype
+			!formData.chronotype.chronotype ||
 			!formData.profile ||
 			!formData.mbti ||
 			!formData.chronotype 
