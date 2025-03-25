@@ -23,6 +23,7 @@ model User {
   analysisData    AnalysisData[]
   feedbacks       Feedback[]
   fixedTasks      FixedTask[]
+  tasks           Task[]
   goals           Goal[]
   notifications   Notification[]
   routines        Routine[]
@@ -39,6 +40,23 @@ model Goal {
 }
 
 model FixedTask {
+  id           String        @id @default(uuid())
+  userId       String
+  title        String        
+  timeWindow   String?
+  priority    String?     
+  description  String
+  duration     Int
+  createdAt    DateTime      @default(now())
+  repeat       Boolean
+  routineId    String?
+  feedbackId   String?       @unique
+  feedback     Feedback?
+  routine      Routine?      @relation(fields: [routineId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  notification Notification?
+}
+model Task {
   id           String        @id @default(uuid())
   userId       String
   title        String
@@ -61,8 +79,10 @@ model Notification {
   priority    String?
   createdAt   DateTime   @default(now())
   fixedTaskId String?    @unique
-  routineId   String?    @unique
-  FixedTask   FixedTask? @relation(fields: [fixedTaskId], references: [id])
+  taskId      String?    @unique
+  routineId   String?    @unique 
+  task        Task? @relation(fields: [taskId], references: [id])
+  fixedTask   FixedTask? @relation(fields: [fixedTaskId], references: [id])
   routine     Routine?   @relation(fields: [routineId], references: [id])
   user        User       @relation(fields: [userId], references: [id])
 }
@@ -71,12 +91,13 @@ model Routine {
   id           String        @id @default(uuid())
   userId       String
   date         DateTime
-  tasks        Json
+ 
   status       String        @default("pending")
   message      String?
   feedbackId   String?
   createdAt    DateTime      @default(now())
-  fixedTasks   FixedTask[]
+  fixedTasks   FixedTask[]   
+  tasks        Task[]
   notification Notification?
   feedback     Feedback?     @relation(fields: [feedbackId], references: [id])
   user         User          @relation(fields: [userId], references: [id])
@@ -84,9 +105,10 @@ model Routine {
 
 model Feedback {
   id             String     @id @default(uuid())
-  userId         String
+  userId         String     
   routineId      String
   fixedTaskId    String?    @unique
+  taskId         String?     @unique
   rating         Int
   comment        String?
   energyLevel    Int?
@@ -94,6 +116,8 @@ model Feedback {
   efficiency     Int?
   createdAt      DateTime   @default(now())
   fixedTask      FixedTask? @relation(fields: [fixedTaskId], references: [id])
+  
+  task           Task?      @relation(fields: [taskId], references: [id])
   user           User       @relation(fields: [userId], references: [id])
   routine        Routine[]
 }

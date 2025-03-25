@@ -52,6 +52,7 @@
     "next": "15.1.0",
     "next-themes": "latest",
     "nextjs-server-action-tester": "^1.0.4",
+    "openai": "^4.89.0",
     "react": "^19",
     "react-day-picker": "8.10.1",
     "react-dom": "^19",

@@ -48,7 +48,7 @@ export async function createFixedTask(taskData: {
   duration: string;
   timeWindow: string;
   priority: string;
-  isFixed: boolean;
+
   date: string;
 }) {
   const validation = validateTaskData(taskData);
@@ -59,26 +59,26 @@ export async function createFixedTask(taskData: {
     };
   } else console.log('Task data is valid');
   try {
-    // const data = {
-    //   title: taskData.title,
-    //   description: taskData.description,
-    //   duration: Number(taskData.duration),
-    //   timeWindow: taskData.timeWindow,
-    //   priority: taskData.priority,
-    //   isFixed: taskData.isFixed,
-    //   date: taskData.date,
-    // };
+    const data = {
+      title: taskData.title,
+      description: taskData.description,
+      duration: Number(taskData.duration),
+      timeWindow: taskData.timeWindow,
+      priority: taskData.priority,
+
+      date: taskData.date,
+    };
     // console.log(data);
 
-    const data = {
-      title: 'Grocery Shopping',
-      description: 'Buy groceries for the week at the local supermarket.',
-      duration: 6, // Duration in minutes (as a string, as expected by the function)
-      timeWindow: 'Evening',
-      priority: 'High',
-      isFixed: true,
-      date: '2025-03-28', // Example date in YYYY-MM-DD format
-    };
+    // const data = {
+    //   title: 'Grocery Shopping',
+    //   description: 'Buy groceries for the week at the local supermarket.',
+    //   duration: 6, // Duration in minutes (as a string, as expected by the function)
+    //   timeWindow: 'Evening',
+    //   priority: 'High',
+    //
+    //   date: '2025-03-28', // Example date in YYYY-MM-DD format
+    // };
     console.log(data);
     // const uploadTaskData = {
     //   title: data.title,
