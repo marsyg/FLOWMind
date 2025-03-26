@@ -45,7 +45,7 @@ Here's what MindFlow brings to the table:
 
 ## 🚀 Getting Started: Let's Flow!
 
-1.  **Clone the Repo:** `git clone [[Your Repo URL](https://github.com/marsyg/FLOWMind)]` 📥
+1.  **Clone the Repo:** `git clone [https://github.com/marsyg/FLOWMind] ` 📥
 2.  **Install Dependencies:** `npm install` or `yarn install` 📦
 3.  **Set Up Prisma:**
     * Create a `.env` file with your database URL (`DATABASE_URL`).
